@@ -14,6 +14,12 @@
             $wphts_installation_date = time();
             update_option('wphts_installation_date', $wphts_installation_date);
         }
+
+        $wphts_nb_displayed_blocks_in_admin_page = get_option('wphts_nb_displayed_blocks_in_admin_page');
+        if($wphts_nb_displayed_blocks_in_admin_page == "") {
+            $wphts_nb_displayed_blocks_in_admin_page = 500;
+            update_option('wphts_nb_displayed_blocks_in_admin_page', $wphts_nb_displayed_blocks_in_admin_page);
+        }
             
         $charset_collate = $wpdb->get_charset_collate();
         $queryInsertHtml = "CREATE TABLE IF NOT EXISTS  ".$wpdb->prefix."wphts (
