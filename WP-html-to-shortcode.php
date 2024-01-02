@@ -1,8 +1,5 @@
 <?php
-/**
- * @package WP-html-to-shortcode
- * @version 1.0.0
- */
+
 /*
 Plugin Name: WP-html-to-shortcode
 Plugin URI: https://github.com/JeromeTGH/WP-html-to-shortcode
@@ -12,10 +9,12 @@ Version: 1.0.0
 Author URI: https://github.com/JeromeTGH
 */
 
-// ============================================
-// Blocage des appels directs à cette extension
-// ============================================
-if (!function_exists('add_action')) {
-	echo 'Ce plugin ne peut être appelé directement !';
+if (!defined('ABSPATH'))
 	exit;
-}
+
+
+// Inclusion des fichiers de l'application
+require(dirname(__FILE__).'/admin/pages.php');
+require(dirname(__FILE__).'/admin/menu.php');
+
+?>
