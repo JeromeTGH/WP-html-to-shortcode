@@ -13,6 +13,12 @@ if (!defined('ABSPATH'))
 	exit;
 
 
+// Activation/désactivation du plugin
+require(dirname(__FILE__).'/admin/install.php');
+register_activation_hook(__FILE__, 'wphts_install');
+require(dirname(__FILE__).'/admin/uninstall.php');
+register_uninstall_hook(__FILE__, 'wphts_uninstall' );
+
 // Inclusion des fichiers de l'application
 require(dirname(__FILE__).'/admin/pages.php');
 require(dirname(__FILE__).'/admin/menu.php');
