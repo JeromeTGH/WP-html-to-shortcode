@@ -9,18 +9,36 @@
             wp_die("is_plugin_active");
         }
     
-        $wphts_installation_date = get_option('wphts_installation_date');
-        if($wphts_installation_date == "") {
-            $wphts_installation_date = time();
-            update_option('wphts_installation_date', $wphts_installation_date);
-        }
+        // Option : date d'activation
+        $wphts_activation_date = get_option('wphts_activation_date');
+        if($wphts_activation_date != false)
+            update_option('wphts_activation_date', time());
+        else
+            add_option('wphts_activation_date', time());
 
-        $wphts_nb_displayed_blocks_in_admin_page = get_option('wphts_nb_displayed_blocks_in_admin_page');
-        if($wphts_nb_displayed_blocks_in_admin_page == "") {
-            $wphts_nb_displayed_blocks_in_admin_page = 500;
-            update_option('wphts_nb_displayed_blocks_in_admin_page', $wphts_nb_displayed_blocks_in_admin_page);
-        }
-            
+        // Option : nbre d'éléments à afficher par page
+        $wphts_show_limit = get_option('wphts_show_limit');
+        if($wphts_show_limit != false)
+            update_option('wphts_show_limit', 100);
+        else
+            add_option('wphts_show_limit', 100);
+
+        // Option : tri par ... (id, par défaut)
+        $wphts_sort_by = get_option('wphts_sort_by');
+        if($wphts_sort_by != false)
+            update_option('wphts_sort_by', 'id');
+        else
+            add_option('wphts_sort_by', 'id');
+
+        // Option : tri ascendant (par défaut), ou descendant
+        $wphts_sort_direction = get_option('wphts_sort_direction');
+        if($wphts_sort_direction != false)
+            update_option('wphts_sort_direction', 'desc');
+        else
+            add_option('wphts_sort_direction', 'desc');
+
+
+        // Création de la table, si inexsitante
         $charset_collate = $wpdb->get_charset_collate();
         $queryInsertHtml = "CREATE TABLE IF NOT EXISTS  ".$wpdb->prefix."wphts (
                 `id` int NOT NULL AUTO_INCREMENT,
