@@ -36,10 +36,12 @@
 
     function wphts_settings() {
         echo '<h1>Settings !</h1>';
+        require(dirname(__FILE__).'/page_sections/footer.php');
     }
 
     function wphts_about() {
         echo '<h1>About !</h1>';
+        require(dirname(__FILE__).'/page_sections/footer.php');
     }
 
 ?>

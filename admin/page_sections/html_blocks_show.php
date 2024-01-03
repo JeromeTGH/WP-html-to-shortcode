@@ -129,16 +129,16 @@
                     <td style="vertical-align: middle!important; padding-left: 18px;">
                         <input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="wphts_block_ids[]" id="wphts_block_ids" />
                     </td>
-                    <td style="text-align: right;"><?php echo intval($entry->id);?></td>
-                    <td><?php echo esc_html($entry->title);?></td>
-                    <td><?php 
+                    <td style="vertical-align: middle!important; text-align: right;"><?php echo intval($entry->id);?></td>
+                    <td style="vertical-align: middle!important;"><?php echo esc_html($entry->title);?></td>
+                    <td style="vertical-align: middle!important;"><?php 
                         if($entry->status == 0) {
-                            echo '(inactive)';
+                            echo '-';
                         } else {
                             echo '[wphts blockname="'.esc_html($entry->title).'"]';
                         }?>
                     </td>
-                    <td>
+                    <td style="vertical-align: middle!important;">
                         <?php 
                             if($entry->status == 0) {
                                 echo "Inactive";
@@ -151,27 +151,35 @@
                         if($entry->status == 0) {
                             $activate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=1');
                         ?>
-                            <td style="text-align: center;">
-                                <a href='<?php echo wp_nonce_url($activate_url, 'wphts-change-status_'.$entry_id); ?>'>Activate</a>
+                            <td style="vertical-align: middle!important; text-align: center;">
+                                <a href='<?php echo wp_nonce_url($activate_url, 'wphts-change-status_'.$entry_id); ?>'>
+                                    <img class="main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                                </a>
                             </td>
                         <?php 
                         } elseif ($entry->status == 1){
                             $desactivate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=0');
                         ?>
-                            <td style="text-align: center;">
-                                <a href='<?php echo wp_nonce_url($desactivate_url, 'wphts-change-status_'.$entry_id); ?>'>Desactivate</a>
+                            <td style="vertical-align: middle!important; text-align: center;">
+                                <a href='<?php echo wp_nonce_url($desactivate_url, 'wphts-change-status_'.$entry_id); ?>'>
+                                    <img class="main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                                </a>
                             </td>		
                         <?php 	
                         }
                     ?>
-                    <td style="text-align: center;">
-                        <a href='<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>'>Edit block</a>
+                    <td style="vertical-align: middle!important; text-align: center;">
+                        <a href='<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>'>
+                            <img class="main_tbl_img" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                        </a>
                     </td>
                     <?php
                         $delete_url = admin_url('admin.php?page=wphts-blocksHTML&action=delete-block&entry_id='.$entry_id);
                         ?>
-                        <td style="text-align: center;" >
-                            <a href='<?php echo wp_nonce_url($delete_url, 'wphts-delete_'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">Delete block</a>
+                        <td style="vertical-align: middle!important; text-align: center;" >
+                            <a href='<?php echo wp_nonce_url($delete_url, 'wphts-delete_'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
+                                <img class="main_tbl_img" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                            </a>
                         </td>
                 </tr>
                 <?php
