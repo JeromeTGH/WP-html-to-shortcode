@@ -13,7 +13,30 @@
             // 2 = Bulk Delete
             if(isset($_POST['wphts_block_ids'])) {
                 $wphts_block_ids = $_POST['wphts_block_ids'];
-                echo '<pre>'; print_r($wphts_block_ids); echo '</pre>';
+                if (!empty($wphts_block_ids)) {
+                    // Bulk "deactivate"
+                    if ($wphts_bulk_actions == 0) {
+                        foreach ($wphts_block_ids as $wphts_block_id)
+                            $wpdb->update($wpdb->prefix.'wphts', array('status' => 0), array('id' => $wphts_block_id));
+                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                        exit();
+                    }
+                    // Bulk "activate"
+                    if ($wphts_bulk_actions == 1) {
+                        foreach ($wphts_block_ids as $wphts_block_id)
+                            $wpdb->update($wpdb->prefix.'wphts', array('status' => 1), array('id' => $wphts_block_id));
+                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                        exit();
+                    }
+                    // Bulk "delete"
+                    if ($wphts_bulk_actions == 2) {
+                        // foreach ($wphts_block_ids as $wphts_block_id)
+                        //     $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.'wphts WHERE id=%d', $wphts_block_id));
+                                    // Désactivé par sécurité, pour l'instant
+                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                        exit();
+                    }
+                }
             }
         }
     }
@@ -88,7 +111,7 @@
                 ?>
                 <tr <?php echo $class; ?>>
                     <td style="vertical-align: middle!important; padding-left: 18px;">
-                        <input type="checkbox" value="<?php echo intval($entry->id); ?>" name="wphts_block_ids[]" id="wphts_block_ids" />
+                        <input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="wphts_block_ids[]" id="wphts_block_ids" />
                     </td>
                     <td><?php echo intval($entry->id);?></td>
                     <td><?php echo esc_html($entry->title);?></td>
@@ -163,3 +186,10 @@
         echo '<div style="text-align: right; padding: 0.4rem; font-size: 1rem;">'.$page_links.'</div>';
     }
 ?>
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery("#selectAllRows").click(function() {
+            jQuery(".chk").prop("checked",jQuery("#selectAllRows").prop("checked"));
+        }); 
+    });
+</script>
