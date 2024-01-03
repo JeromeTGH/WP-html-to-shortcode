@@ -15,6 +15,13 @@
             $page_d_accueil = false;
         }
 
+        if(isset($_GET['action']) && $_GET['action']=='edit-block') {
+            require(dirname(__FILE__).'/page_sections/header.php');
+            require(dirname(__FILE__).'/page_sections/html_blocks_edit.php');
+            require(dirname(__FILE__).'/page_sections/footer.php');
+            $page_d_accueil = false;
+        }
+
         if(isset($_GET['action']) && $_GET['action']=='delete-block') {
             require(dirname(__FILE__).'/page_sections/html_blocks_delete_block.php');
             $page_d_accueil = false;
