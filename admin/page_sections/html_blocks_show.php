@@ -15,6 +15,9 @@
     if($app_msg == 2) { ?>
         <div style="color: green; font-weight: bold;">→ HTML block status successfully changed !</div><br><?php
     }
+    if($app_msg == 3) { ?>
+        <div style="color: green; font-weight: bold;">→ HTML block successfully deleted !</div><br><?php
+    }
 
 
 ?>

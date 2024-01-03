@@ -1,17 +1,16 @@
 <?php
 
     if(!defined('ABSPATH'))
-	    exit;
+    exit;
 
     global $wpdb;
 
     $_POST = stripslashes_deep($_POST);
     $_GET = stripslashes_deep($_GET);
     $bloc_id = intval($_GET['entry_id']);
-    $new_status = intval($_GET['new_status']);
 
-    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-change-status_'.$bloc_id)) {
-        wp_nonce_ays('wphts-change-status_'.$bloc_id);
+    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-delete_'.$bloc_id)) {
+        wp_nonce_ays('wphts-delete_'.$bloc_id);
         exit;
     } else {
         if($bloc_id == "" || !is_numeric($bloc_id)){
@@ -23,8 +22,8 @@
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=1'));
             exit();
         } else {
-            $wpdb->update($wpdb->prefix.'wphts', array('status' => $new_status), array('id' => $bloc_id));
-            header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=2'));
+            $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.'wphts WHERE id=%d', $bloc_id));
+            header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=3'));
             exit();
         }
     }
