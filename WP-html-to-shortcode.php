@@ -20,8 +20,9 @@ register_activation_hook(__FILE__, 'wphts_install');
 require(dirname(__FILE__).'/admin/uninstall.php');
 register_uninstall_hook(__FILE__, 'wphts_uninstall' );
 
-// Inclusion des autres fichiers de l'application
+// Inclusion des autres fichiers de l'application à lancer
 require(dirname(__FILE__).'/admin/pages_manager.php');
 require(dirname(__FILE__).'/admin/menu.php');
+require(dirname(__FILE__).'/shortcode-handler.php');
 
 ?>
