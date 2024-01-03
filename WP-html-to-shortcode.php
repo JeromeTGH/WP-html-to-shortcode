@@ -1,28 +1,31 @@
 <?php
 
-/*
-Plugin Name: WP-html-to-shortcode
-Plugin URI: https://github.com/JeromeTGH/WP-html-to-shortcode
-Description: Permet de "transformer" des codes HTML en shortcodes, pouvant être utilisé dans les pages/articles
-Author: Jérôme TOMSKI
-Version: 1.0.0
-Author URI: https://github.com/JeromeTGH
-*/
+	/*
+		Plugin Name: WP-html-to-shortcode
+		Plugin URI: https://github.com/JeromeTGH/WP-html-to-shortcode
+		Description: Permet de "transformer" des codes HTML en shortcodes, pouvant être utilisé dans les pages/articles
+		Author: Jérôme TOMSKI
+		Version: 1.0.0
+		Author URI: https://github.com/JeromeTGH
+	*/
 
-if (!defined('ABSPATH'))
-	exit;
+	if (!defined('ABSPATH'))
+		exit;
 
-ob_start();
+	ob_start();
 
-// Activation/désactivation du plugin
-require(dirname(__FILE__).'/admin/install.php');
-register_activation_hook(__FILE__, 'wphts_install');
-require(dirname(__FILE__).'/admin/uninstall.php');
-register_uninstall_hook(__FILE__, 'wphts_uninstall' );
+	define('WPHTS_ROOT_PLUGIN_FILE', __FILE__);
 
-// Inclusion des autres fichiers de l'application à lancer
-require(dirname(__FILE__).'/admin/pages_manager.php');
-require(dirname(__FILE__).'/admin/menu.php');
-require(dirname(__FILE__).'/shortcode-handler.php');
+	// Activation/désactivation du plugin
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/install.php');
+	register_activation_hook(WPHTS_ROOT_PLUGIN_FILE, 'wphts_install');
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/uninstall.php');
+	register_uninstall_hook(WPHTS_ROOT_PLUGIN_FILE, 'wphts_uninstall' );
+
+	// Inclusion des autres fichiers de l'application à lancer
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/pages_manager.php');
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/menu.php');
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/shortcode-handler.php');
+	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/add-css-and-js.php');
 
 ?>
