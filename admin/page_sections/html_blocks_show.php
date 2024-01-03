@@ -1,9 +1,27 @@
+<?php
+    global $wpdb;
+
+    $_GET = stripslashes_deep($_GET);
+    $_POST = stripslashes_deep($_POST);
+
+    $app_msg = '';
+    if(isset($_GET['appmsg'])) {
+        $app_msg = intval($_GET['appmsg']);
+    }
+
+    if($app_msg == 1) { ?>
+        <div style="color: red; font-weight: bold;">→ HTML block_id not found...</div><br><?php
+    }
+    if($app_msg == 2) { ?>
+        <div style="color: green; font-weight: bold;">→ HTML block status successfully changed !</div><br><?php
+    }
+
+
+?>
 <input id="wphts_add_new_block" style="cursor: pointer; margin-bottom:10px; margin-left:8px;" type="button" name="wphts_add_new_block" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=block-add');?>"'>
 <br>
 <br>
 <?php
-    global $wpdb;
-
     if (isset($_POST['wphts_apply_bulk_actions'])) {
         if (isset($_POST['wphts_bulk_actions'])) {
             $wphts_bulk_actions=$_POST['wphts_bulk_actions'];

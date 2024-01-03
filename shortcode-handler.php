@@ -14,13 +14,17 @@
             $resultat = $wpdb->get_results($wpdb->prepare("SELECT * FROM ".$wpdb->prefix."wphts WHERE title=%s", $blockname));
             
             if(empty($resultat)) {
+                // Si shortcode inexistant
                 return '';
             } else {
                 foreach ($resultat as $champs_du_resultat) {
-                if($champs_du_resultat->status == 1)    // Si actif
-                    return do_shortcode($champs_du_resultat->content) ;
-                else 
-                    return '';
+                    if($champs_du_resultat->status == 1) {
+                        // Si 'blocHTML' actif
+                        return do_shortcode($champs_du_resultat->content) ;
+                    } else {
+                        // Si 'blocHTML' inactif
+                        return '';
+                    }
                 }
             }            
         }
