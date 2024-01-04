@@ -1,56 +1,64 @@
 <?php
 
-    register_activation_hook(JTGH_WPHTS_ROOT_FILE, 'wphts_install');
+    register_activation_hook(JTGH_WPHTS_ROOT_FILE, 'JTGH_WPHTS_install');
 
-    function wphts_install() {
+    function JTGH_WPHTS_install() {
 
-        global $wpdb;
-        $pluginName = 'WP-html-to-shortcode/WP-html-to-shortcode.php';
-
+        // Vérifie si le plugin est bien actif, au moment de l'installation
+        $pluginName = basename(JTGH_WPHTS_ROOT_FILE, ".php").'/'.basename(JTGH_WPHTS_ROOT_FILE);    // = xxx/xxx.php       
         if (is_plugin_active($pluginName)) {
             wp_die("is_plugin_active");
         }
     
-        // Option : date d'activation
-        $wphts_activation_date = get_option('wphts_activation_date');
+        // Enregistrement de la "date d'activation du plugin" (dans la table des options de la BDD de WP)
+        $wphts_activation_date = get_option(JTGH_WPHTS_OPTION_PREFIX.'activation_date');
         if($wphts_activation_date != false)
-            update_option('wphts_activation_date', time());
+            update_option(JTGH_WPHTS_OPTION_PREFIX.'activation_date', time());
         else
-            add_option('wphts_activation_date', time());
+            add_option(JTGH_WPHTS_OPTION_PREFIX.'activation_date', time());
 
-        // Option : nbre d'éléments à afficher par page
-        $wphts_show_limit = get_option('wphts_show_limit');
+        // Enregistrement du "nbre d'éléments à afficher par page dans tableau" (dans la table des options de la BDD de WP)
+        $wphts_show_limit = get_option(JTGH_WPHTS_OPTION_PREFIX.'show_limit');
         if($wphts_show_limit != false)
-            update_option('wphts_show_limit', 100);
+            update_option(JTGH_WPHTS_OPTION_PREFIX.'show_limit', 100);
         else
-            add_option('wphts_show_limit', 100);
+            add_option(JTGH_WPHTS_OPTION_PREFIX.'show_limit', 100);
 
-        // Option : tri par ... (id, par défaut)
-        $wphts_sort_by = get_option('wphts_sort_by');
+        // Enregistrement de "ce sur quoi sera fait le tri, lors d'un affichage tableau" (dans la table des options de la BDD de WP)
+        $wphts_sort_by = get_option(JTGH_WPHTS_OPTION_PREFIX.'sort_by');
         if($wphts_sort_by != false)
-            update_option('wphts_sort_by', 'id');
+            update_option(JTGH_WPHTS_OPTION_PREFIX.'sort_by', 'id');
         else
-            add_option('wphts_sort_by', 'id');
+            add_option(JTGH_WPHTS_OPTION_PREFIX.'sort_by', 'id');
 
-        // Option : tri ascendant (par défaut), ou descendant
-        $wphts_sort_direction = get_option('wphts_sort_direction');
+        // Enregistrement du "sens de tri, lors d'un affichage tableau" (dans la table des options de la BDD de WP)
+        $wphts_sort_direction = get_option(JTGH_WPHTS_OPTION_PREFIX.'sort_direction');
         if($wphts_sort_direction != false)
-            update_option('wphts_sort_direction', 'desc');
+            update_option(JTGH_WPHTS_OPTION_PREFIX.'sort_direction', 'desc');
         else
-            add_option('wphts_sort_direction', 'desc');
+            add_option(JTGH_WPHTS_OPTION_PREFIX.'sort_direction', 'desc');
 
 
         // Création de la table, si inexsitante
-        $charset_collate = $wpdb->get_charset_collate();
-        $queryInsertHtml = "CREATE TABLE IF NOT EXISTS  ".$wpdb->prefix."wphts (
-                `id` int NOT NULL AUTO_INCREMENT,
-                `title` varchar(512) NOT NULL,
-                `content` longtext NOT NULL,
-                `short_code` varchar(256) NOT NULL,
-                `status` int NOT NULL,
-                PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB ".$charset_collate." AUTO_INCREMENT=1";
-        $wpdb->query($queryInsertHtml);
+        global $wpdb;
+        $create_table_rqt = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
+            `id` INT NOT NULL AUTO_INCREMENT,
+            `shortcode` VARCHAR(256) NOT NULL,
+            `htmlContent` LONGTEXT NOT NULL,
+            `bActif` BIT(1) NOT NULL,
+            PRIMARY KEY (`id`)
+        )";
+        $wpdb->query($create_table_rqt);
+
+        // $charset_collate = $wpdb->get_charset_collate();
+        // $queryInsertHtml = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
+        //         `id` INT NOT NULL AUTO_INCREMENT,
+        //         `shortcode` VARCHAR(256) NOT NULL,
+        //         `htmlContent` LONGTEXT NOT NULL,
+        //         `bActif` BIT(1) NOT NULL,
+        //         PRIMARY KEY (`id`)
+        //     ) ENGINE=InnoDB ".$charset_collate;
+        // $wpdb->query($queryInsertHtml);
 
     }
 
