@@ -1,5 +1,7 @@
 <?php
 
+    register_activation_hook(JTGH_WPHTS_ROOT_FILE, 'wphts_install');
+
     function wphts_install() {
 
         global $wpdb;

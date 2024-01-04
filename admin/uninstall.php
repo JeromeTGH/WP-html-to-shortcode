@@ -1,5 +1,7 @@
 <?php
 
+    register_uninstall_hook(JTGH_WPHTS_ROOT_FILE, 'wphts_uninstall' );
+
     function wphts_uninstall() {
 
         global $wpdb;

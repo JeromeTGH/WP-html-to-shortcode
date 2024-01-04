@@ -9,23 +9,19 @@
 		Author URI: https://github.com/JeromeTGH
 	*/
 
+	// Protection contre accès directs
 	if (!defined('ABSPATH'))
 		exit;
 
-	ob_start();
+	// Définition du script de démarrage pluging
+	define('JTGH_WPHTS_ROOT_FILE', __FILE__);
 
-	define('WPHTS_ROOT_PLUGIN_FILE', __FILE__);
+	// Définition des constantes du plugin
+	define('JTGH_WPHTS_BDD_TBL_NAME', 'jtgh_wphts_');
+	define('JTGH_WPHTS_SHORTCODE_FORMAT', '[wphts shortcut=???]');
+	define('JTGH_WPHTS_VERSION', '2.0');
 
-	// Activation/désactivation du plugin
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/install.php');
-	register_activation_hook(WPHTS_ROOT_PLUGIN_FILE, 'wphts_install');
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/uninstall.php');
-	register_uninstall_hook(WPHTS_ROOT_PLUGIN_FILE, 'wphts_uninstall' );
-
-	// Inclusion des autres fichiers de l'application à lancer
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/pages_manager.php');
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/admin/menu.php');
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/shortcode-handler.php');
-	require(dirname(WPHTS_ROOT_PLUGIN_FILE).'/add-css-and-js.php');
+	// Script d'initialisation plugin
+	require(dirname(JTGH_WPHTS_ROOT_FILE).'/init.php');
 
 ?>
