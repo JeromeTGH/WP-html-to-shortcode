@@ -15,7 +15,7 @@
 
 	// Mémorisation de l'adresse du script et de son répertoire de lancement
 	define('JTGH_WPHTS_ROOT_FILE', __FILE__);
-	define('JTGH_WPHTS_ROOT_DIRECTORY', JTGH_WPHTS_ROOT_DIRECTORY);
+	define('JTGH_WPHTS_ROOT_DIRECTORY', dirname(__FILE__));
 
 	// Script d'initialisation plugin
 	require(JTGH_WPHTS_ROOT_DIRECTORY.'/init.php');
