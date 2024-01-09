@@ -1,7 +1,13 @@
 <?php
 
+	// Protection contre accès directs
+	if (!defined('ABSPATH'))
+		exit;
+
+    // Enregistrement "activation hook"
     register_activation_hook(JTGH_WPHTS_ROOT_FILE, 'JTGH_WPHTS_install');
 
+    // Fonction d'installation
     function JTGH_WPHTS_install() {
 
         // Vérifie si le plugin est bien actif, au moment de l'installation
