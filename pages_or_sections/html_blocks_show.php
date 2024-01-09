@@ -37,14 +37,14 @@
                     // Bulk "deactivate"
                     if ($wphts_bulk_actions == 0) {
                         foreach ($wphts_block_ids as $wphts_block_id)
-                            $wpdb->update($wpdb->prefix.'wphts', array('status' => 0), array('id' => $wphts_block_id));
+                            $wpdb->update($wpdb->prefix.'wphts', array('bActif' => 0), array('id' => $wphts_block_id));
                         header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
                         exit();
                     }
                     // Bulk "activate"
                     if ($wphts_bulk_actions == 1) {
                         foreach ($wphts_block_ids as $wphts_block_id)
-                            $wpdb->update($wpdb->prefix.'wphts', array('status' => 1), array('id' => $wphts_block_id));
+                            $wpdb->update($wpdb->prefix.'wphts', array('bActif' => 1), array('id' => $wphts_block_id));
                         header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
                         exit();
                     }
@@ -132,7 +132,7 @@
                     <td style="vertical-align: middle!important; text-align: right;"><?php echo intval($entry->id);?></td>
                     <td style="vertical-align: middle!important;"><?php echo esc_html($entry->title);?></td>
                     <td style="vertical-align: middle!important;"><?php 
-                        if($entry->status == 0) {
+                        if($entry->bActif == 0) {
                             echo '-';
                         } else {
                             echo '[wphts blockname="'.esc_html($entry->title).'"]';
@@ -140,15 +140,15 @@
                     </td>
                     <td style="vertical-align: middle!important;">
                         <?php 
-                            if($entry->status == 0) {
+                            if($entry->bActif == 0) {
                                 echo "Inactive";
-                            } elseif ($entry->status == 1) {
+                            } elseif ($entry->bActif == 1) {
                                 echo "Active";	
                             }
                         ?>
                     </td>
                     <?php 
-                        if($entry->status == 0) {
+                        if($entry->bActif == 0) {
                             $activate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=1');
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">
@@ -157,7 +157,7 @@
                                 </a>
                             </td>
                         <?php 
-                        } elseif ($entry->status == 1){
+                        } elseif ($entry->bActif == 1){
                             $desactivate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=0');
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">

@@ -23,7 +23,7 @@
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=1'));
             exit();
         } else {
-            $wpdb->update($wpdb->prefix.'wphts', array('status' => $new_status), array('id' => $bloc_id));
+            $wpdb->update($wpdb->prefix.'wphts', array('bActif' => $new_status), array('id' => $bloc_id));
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=2'));
             exit();
         }

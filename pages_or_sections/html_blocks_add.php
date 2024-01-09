@@ -24,7 +24,7 @@
                 
                 if($doublon == 0) {
                     $new_shortcode = '[wphts blockname="'.$new_title.'"]';
-                    $wpdb->insert($wpdb->prefix.'wphts', array('title' => $new_title, 'content' => $new_content, 'short_code' => $new_shortcode, 'status' => '1'), array('%s','%s','%s','%d'));
+                    $wpdb->insert($wpdb->prefix.'wphts', array('title' => $new_title, 'content' => $new_content, 'short_code' => $new_shortcode, 'bActif' => '1'), array('%s','%s','%s','%d'));
                     header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
                 } else {
                     ?>
