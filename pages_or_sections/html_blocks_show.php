@@ -20,7 +20,7 @@
     }
 
 ?>
-<input id="wphts_add_new_block" style="cursor: pointer; margin-bottom:10px; margin-left:8px;" type="button" name="wphts_add_new_block" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=block-add');?>"'>
+<input id="wphts_add_new_block" style="cursor: pointer; margin-bottom:10px; margin-left:8px;" type="button" name="wphts_add_new_block" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block');?>"'>
 <br>
 <br>
 <?php

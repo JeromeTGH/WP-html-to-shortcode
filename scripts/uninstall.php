@@ -5,10 +5,10 @@
 		exit;
 
     // Enregistrement "uninstall hook"
-    register_uninstall_hook(JTGH_WPHTS_ROOT_FILE, 'wphts_uninstall' );
+    register_uninstall_hook(JTGH_WPHTS_ROOT_FILE, 'JTGH_WPHTS_uninstall' );
 
     // Fonction de désinstallation
-    function wphts_uninstall() {
+    function JTGH_WPHTS_uninstall() {
 
         // Effacement des options
         delete_option(JTGH_WPHTS_OPTION_PREFIX.'activation_date');
