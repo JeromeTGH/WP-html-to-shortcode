@@ -13,10 +13,11 @@
 	if (!defined('ABSPATH'))
 		exit;
 
-	// Définition du script de démarrage pluging
+	// Mémorisation de l'adresse du script et de son répertoire de lancement
 	define('JTGH_WPHTS_ROOT_FILE', __FILE__);
+	define('JTGH_WPHTS_ROOT_DIRECTORY', dirname(__FILE__));
 
 	// Script d'initialisation plugin
-	require(dirname(JTGH_WPHTS_ROOT_FILE).'/init.php');
+	require(JTGH_WPHTS_ROOT_DIRECTORY.'/init.php');
 
 ?>
