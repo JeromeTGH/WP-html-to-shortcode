@@ -11,6 +11,7 @@
 	define('JTGH_WPHTS_OPTION_PREFIX', 'jtgh_wphts_');
 	define('JTGH_WPHTS_MAIN_SLUG', 'jtgh-wphts-main');
 	define('JTGH_WPHTS_PAGE_TITLE', 'JTGH WPHTS - ');
+	define('JTGH_WPHTS_NONCE_BASE', 'jtgh_wphts_');
 
 	// Mise en mémoire tampon des données qui suivront (hormis headers)
 	ob_start();

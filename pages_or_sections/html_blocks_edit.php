@@ -25,8 +25,8 @@
 
 
     if(isset($_POST) && isset($_POST['updateBlock'])) {
-        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-update_')) {
-            wp_nonce_ays('wphts-update_');
+        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'update'.$blockID)) {
+            wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
             exit;
         }
 
@@ -66,7 +66,7 @@
 	<fieldset style="width: 99%; border: 1px solid #F7F7F7; padding: 10px 0px;">
 		<form method="post" action="admin.php?page=wphts-blocksHTML&action=edit-block&entry_id=<?php echo $blockID; ?>">
 			<?php
-                wp_nonce_field('wphts-update_');
+                wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
 			?>
 			<div>
                 <table style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;margin: 0 auto; border-spacing: 1rem;">

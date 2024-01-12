@@ -76,8 +76,8 @@
     $search_txt = '';
     $search_txt_for_sql = '';
     if(isset($_POST['wphts_search_txt'])) {
-        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts_global_form')) {
-            wp_nonce_ays('wphts_global_form');
+        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'global_form')) {
+            wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'global_form');
             exit;
         }
     }
@@ -89,7 +89,7 @@
     $entries = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix."wphts WHERE title LIKE '%".$search_txt_for_sql."%' ORDER BY $sort_by $sort_direction LIMIT $offset, $limit");
 ?>
 <form action="" method="post">
-    <?php wp_nonce_field('wphts_global_form');?>
+    <?php wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'global_form');?>
     <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
         <div>
             <span>With Selected : </span>
@@ -157,7 +157,7 @@
                             $activate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=1');
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">
-                                <a href='<?php echo wp_nonce_url($activate_url, 'wphts-change-status_'.$entry_id); ?>'>
+                                <a href='<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
                                     <img class="main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                                 </a>
                             </td>
@@ -166,7 +166,7 @@
                             $desactivate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=0');
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">
-                                <a href='<?php echo wp_nonce_url($desactivate_url, 'wphts-change-status_'.$entry_id); ?>'>
+                                <a href='<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
                                     <img class="main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                                 </a>
                             </td>		
@@ -182,7 +182,7 @@
                         $delete_url = admin_url('admin.php?page=wphts-blocksHTML&action=delete-block&entry_id='.$entry_id);
                         ?>
                         <td style="vertical-align: middle!important; text-align: center;" >
-                            <a href='<?php echo wp_nonce_url($delete_url, 'wphts-delete_'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
+                            <a href='<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
                                 <img class="main_tbl_img" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                             </a>
                         </td>

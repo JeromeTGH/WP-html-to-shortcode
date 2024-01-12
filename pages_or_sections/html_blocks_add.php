@@ -4,13 +4,15 @@
 	if (!defined('ABSPATH'))
 		exit;
 
+    // Récupération des données qui nous seront utiles ici
     global $wpdb;
     $_POST = stripslashes_deep($_POST);
 
+    // Si il y a quelque chose de posté ici, via formulaire, alors on traite
     if(isset($_POST) && isset($_POST['ajouterBlock'])) {
 
-        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-add_')) {
-            wp_nonce_ays('wphts-add_');
+        if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'add')) {
+            wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'wphts-add');
             exit;
         }
 
@@ -50,7 +52,7 @@
 	<fieldset style="width: 99%; border: 1px solid #F7F7F7; padding: 10px 0px;">
 		<form method="post">
 			<?php
-                wp_nonce_field('wphts-add_');
+                wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'add');
 			?>
 			<div>
                 <table style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;margin: 0 auto; border-spacing: 1rem;">

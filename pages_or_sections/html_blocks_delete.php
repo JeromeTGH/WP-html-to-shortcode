@@ -10,8 +10,8 @@
     $_GET = stripslashes_deep($_GET);
     $bloc_id = intval($_GET['entry_id']);
 
-    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-delete_'.$bloc_id)) {
-        wp_nonce_ays('wphts-delete_'.$bloc_id);
+    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'delete'.$bloc_id)) {
+        wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'delete'.$bloc_id);
         exit;
     } else {
         if($bloc_id == "" || !is_numeric($bloc_id)){

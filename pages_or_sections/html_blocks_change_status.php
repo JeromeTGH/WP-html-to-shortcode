@@ -11,7 +11,7 @@
     $bloc_id = intval($_GET['entry_id']);
     $new_status = intval($_GET['new_status']);
 
-    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'wphts-change-status_'.$bloc_id)) {
+    if (!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'change_status'.$bloc_id)) {
         wp_nonce_ays('wphts-change-status_'.$bloc_id);
         exit;
     } else {
