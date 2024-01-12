@@ -50,7 +50,7 @@
         $create_table_rqt = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
             `id` INT NOT NULL AUTO_INCREMENT,
             `shortcode` VARCHAR(256) NOT NULL,
-            `htmlContent` LONGTEXT NOT NULL,
+            `htmlCode` LONGTEXT NOT NULL,
             `bActif` BIT(1) NOT NULL,
             PRIMARY KEY (`id`)
         )";

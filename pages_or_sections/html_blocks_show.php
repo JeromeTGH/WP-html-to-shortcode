@@ -56,7 +56,7 @@
                     // Bulk "delete"
                     if ($wphts_bulk_actions == 2) {
                         // foreach ($wphts_block_ids as $wphts_block_id)
-                        //     $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.'wphts WHERE id=%d', $wphts_block_id));
+                        //     $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $wphts_block_id));
                                     // Désactivé par sécurité, pour l'instant
                         header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
                         exit();
@@ -86,7 +86,7 @@
         $search_txt_for_sql = esc_sql($search_txt);
     }
     
-    $entries = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix."wphts WHERE title LIKE '%".$search_txt_for_sql."%' ORDER BY $sort_by $sort_direction LIMIT $offset, $limit");
+    $entries = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." WHERE title LIKE '%".$search_txt_for_sql."%' ORDER BY $sort_by $sort_direction LIMIT $offset, $limit");
 ?>
 <form action="" method="post">
     <?php wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'global_form');?>
@@ -199,7 +199,7 @@
     </table>
 </form>
 <?php
-    $total = $wpdb->get_var( "SELECT COUNT(`id`) FROM ".$wpdb->prefix."wphts" );
+    $total = $wpdb->get_var( "SELECT COUNT(`id`) FROM ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.);
     $num_of_pages = ceil($total / $limit);
 
     $page_links = paginate_links(array(

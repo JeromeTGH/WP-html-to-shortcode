@@ -25,7 +25,7 @@
                 foreach ($resultat as $champs_du_resultat) {
                     if($champs_du_resultat->bActif == 1) {
                         // Si 'blocHTML' actif
-                        return do_shortcode($champs_du_resultat->htmlContent);
+                        return do_shortcode($champs_du_resultat->htmlCode);
                     } else {
                         // Si 'blocHTML' inactif
                         return '';

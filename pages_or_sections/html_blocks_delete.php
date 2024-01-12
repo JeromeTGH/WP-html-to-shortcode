@@ -18,12 +18,12 @@
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
             exit();
         }
-        $resultat = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wphts WHERE id=%d LIMIT 0,1', $bloc_id)) ;
+        $resultat = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d LIMIT 0,1', $bloc_id)) ;
         if($resultat == 0){
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=1'));
             exit();
         } else {
-            $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.'wphts WHERE id=%d', $bloc_id));
+            $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $bloc_id));
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=3'));
             exit();
         }

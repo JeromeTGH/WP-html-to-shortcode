@@ -19,7 +19,7 @@
 
     $champs_de_ce_block = [];
     if(isset($_POST) && !isset($_POST['updateBlock']) && isset($_GET['entry_id'])) {
-        $resultat_lecture = $wpdb->get_results($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wphts WHERE id=%d LIMIT 0,1', $blockID));
+        $resultat_lecture = $wpdb->get_results($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d LIMIT 0,1', $blockID));
         $champs_de_ce_block = $resultat_lecture[0];
     }
 
@@ -37,7 +37,7 @@
         
         if($new_title != "" && $new_content != "") {
             if(ctype_alnum($check_title)) {
-                $doublon = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.'wphts WHERE id!=%d AND title=%s', $blockID, $new_title));
+                $doublon = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id!=%d AND title=%s', $blockID, $new_title));
                 
                 if($doublon == 0) {
                     $new_shortcode = '[wphts blockname="'.$new_title.'"]';
