@@ -15,13 +15,13 @@
     }
 
     if($app_msg == 1) { ?>
-        <div style="color: red; font-weight: bold;">→ HTML block_id not found...</div><br><?php
+        <div class="jtgh_wphts_notice_alert">→ HTML block_id not found...</div><br><?php
     }
     if($app_msg == 2) { ?>
-        <div style="color: green; font-weight: bold;">→ HTML block status successfully changed !</div><br><?php
+        <div class="jtgh_wphts_notice_success">→ HTML block status successfully changed !</div><br><?php
     }
     if($app_msg == 3) { ?>
-        <div style="color: green; font-weight: bold;">→ HTML block successfully deleted !</div><br><?php
+        <div class="jtgh_wphts_notice_success">→ HTML block successfully deleted !</div><br><?php
     }
 
 ?>
@@ -158,7 +158,7 @@
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">
                                 <a href='<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
-                                    <img class="main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                                 </a>
                             </td>
                         <?php 
@@ -167,7 +167,7 @@
                         ?>
                             <td style="vertical-align: middle!important; text-align: center;">
                                 <a href='<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
-                                    <img class="main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                                 </a>
                             </td>		
                         <?php 	
@@ -175,7 +175,7 @@
                     ?>
                     <td style="vertical-align: middle!important; text-align: center;">
                         <a href='<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>'>
-                            <img class="main_tbl_img" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                            <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                         </a>
                     </td>
                     <?php
@@ -183,7 +183,7 @@
                         ?>
                         <td style="vertical-align: middle!important; text-align: center;" >
                             <a href='<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
-                                <img class="main_tbl_img" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                                <img class="jtgh_wphts_main_tbl_img1" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
                             </a>
                         </td>
                 </tr>

@@ -45,17 +45,17 @@
                     header("Location:".admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$blockID.'&appmsg=1'));
                 } else {
                     ?>
-                    <div style="color: red; font-weight: bold;">This HTML title already exists, sorry...</div>
+                    <div class="jtgh_wphts_notice_alert">This HTML title already exists, sorry...</div>
                     <?php	
                 }
             } else {
                 ?>
-                <div style="color: red; font-weight: bold;">HTML title should have only alphanumerics characters, sorry...</div>
+                <div class="jtgh_wphts_notice_alert">HTML title should have only alphanumerics characters, sorry...</div>
                 <?php
             }
         } else {
             ?>		
-            <div style="color: red; font-weight: bold;">Fill all mandatory fields, please !</div>
+            <div class="jtgh_wphts_notice_alert">Fill all mandatory fields, please !</div>
             <?php 
         }
     }

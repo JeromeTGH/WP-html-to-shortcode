@@ -1,9 +1,51 @@
-.main_tbl_img {
+.jtgh_wphts_red_color {
+    color: red;
+}
+
+.jtgh_wphts_notice_alert {
+    color: red;
+    font-weight: bold;
+}
+
+.jtgh_wphts_notice_success {
+    color: green;
+    font-weight: bold;
+}
+
+.jtgh_wphts_form_layout {
+    width: 99%;
+    border: 1px solid #F7F7F7;
+    padding: 10px 0px;
+}
+
+.jtgh_wphts_add_table_layout {
+    width: 99%;
+    background-color: #F9F9F9;
+    border: 1px solid #E4E4E4;
+    border-width: 1px;
+    margin: 0 auto;
+    border-spacing: 1rem;
+}
+.jtgh_wphts_add_table_1stcolumn_layout {
+    border-bottom: none;
+    width:10%;
+}
+.jtgh_wphts_add_table_input_layout {
+    width: 30%;
+}
+.jtgh_wphts_add_table_textarea_layout {
+    width:90%;
+    height:300px;
+}
+
+
+
+.jtgh_wphts_main_tbl_img1 {
     width: 1rem;
     height: 1rem;
 }
 
-.main_tbl_img2 {
+.jtgh_wphts_main_tbl_img2 {
     width: 2rem;
     height: 2rem;
 }
