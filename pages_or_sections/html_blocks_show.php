@@ -1,4 +1,9 @@
 <?php
+
+	// Protection contre accès directs
+	if (!defined('ABSPATH'))
+		exit;
+
     global $wpdb;
 
     $_GET = stripslashes_deep($_GET);

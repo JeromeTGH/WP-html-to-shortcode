@@ -1,4 +1,8 @@
 <?php
+
+	// Protection contre accès directs
+	if (!defined('ABSPATH'))
+		exit;
     
     // Gestionnaire de page "LISTING ET GESTION des blocs html"
     function JTGH_WPHTS_page_list_and_manage() {

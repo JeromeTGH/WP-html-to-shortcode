@@ -1,7 +1,8 @@
 <?php
 
-    if(!defined('ABSPATH'))
-	    exit;
+	// Protection contre accès directs
+	if (!defined('ABSPATH'))
+		exit;
 
     global $wpdb;
 
