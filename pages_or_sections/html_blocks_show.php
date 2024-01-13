@@ -27,7 +27,7 @@
     }
 
 ?>
-<input class="jtgh_wphts_btn_add_new_record" type="button" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block');?>"'>
+<input class="jtgh_wphts_btn_add_new_record" type="button" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block'); ?>"'>
 <br>
 <br>
 <?php
@@ -75,37 +75,33 @@
     }
 
     // Récupération des options
-    $limit = get_option('wphts_show_limit');
-    $sort_by = get_option('wphts_sort_by');
-    $sort_direction = get_option('wphts_sort_direction');
+    $limit = get_option(JTGH_WPHTS_OPTION_PREFIX.'show_limit');
+    $sort_by = get_option(JTGH_WPHTS_OPTION_PREFIX.'sort_by');
+    $sort_direction = get_option(JTGH_WPHTS_OPTION_PREFIX.'sort_direction');
 
     // Récupération/calcul pagination
     $pagenum = isset($_GET['pagenum']) ? absint($_GET['pagenum']) : 1;
     $offset = ($pagenum - 1) * $limit;
 
-
-
-
-
-    
-    $search_txt = '';
-    $search_txt_for_sql = '';
-    if(isset($_POST['wphts_search_txt'])) {
+    // Partie filtrage / recherche
+    $search_shortcode = '';
+    $search_shortcode_in_sql = '';
+    if(isset($_POST['jtgh_wphts_search_shortcode'])) {
         if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'global_form')) {
             wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'global_form');
             exit;
         }
     }
-    if(isset($_POST['wphts_search_txt']) && !isset($_POST['wphts_reset_search_btn'])) {
-        $search_txt = sanitize_text_field($_POST['wphts_search_txt']);
-        $search_txt_for_sql = esc_sql($search_txt);
+    if(isset($_POST['jtgh_wphts_search_shortcode']) && !isset($_POST['jtgh_wphts_reset_search_btn'])) {
+        $search_shortcode = sanitize_text_field($_POST['jtgh_wphts_search_shortcode']);
+        $search_shortcode_in_sql = esc_sql($search_shortcode);
     }
-    
-    $entries = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." WHERE title LIKE '%".$search_txt_for_sql."%' ORDER BY $sort_by $sort_direction LIMIT $offset, $limit");
+    $entries = $wpdb->get_results('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." WHERE shortcode LIKE '%".$search_shortcode_in_sql."%' ORDER BY $sort_by $sort_direction LIMIT $offset, $limit");
+
 ?>
 <form action="" method="post">
-    <?php wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'global_form');?>
-    <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
+    <?php wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'global_form'); ?>
+    <div class="jtgh_wphts_bulk_and_search_section">
         <div>
             <span>With Selected : </span>
             <select name="jtgh_wphts_bulk_actions" id="jtgh_wphts_bulk_actions">
@@ -117,48 +113,48 @@
             <input type="submit" name="jtgh_wphts_apply_bulk_actions" value="Apply">		
         </div>
         <div>
-            <div style="float: right; padding: 0.4rem;">
-                <input type="text" id="wphts_search_txt" name="wphts_search_txt" value= "<?php if(isset($search_txt)) {echo esc_attr($search_txt);}?>" placeholder="Search">
-                <input type="submit" id="wphts_submit_search_btn" name="wphts_submit_search_btn" value="Search" />
-                <input type="submit" id="wphts_reset_search_btn" name="wphts_reset_search_btn" value="Reset" />
+            <div class="jtgh_wphts_search_div">
+                <input type="text" id="jtgh_wphts_search_shortcode" name="jtgh_wphts_search_shortcode" value= "<?php if(isset($search_shortcode)) { echo esc_attr($search_shortcode); } ?>" placeholder="Search">
+                <input type="submit" id="jtgh_wphts_submit_search_btn" name="jtgh_wphts_submit_search_btn" value="Search" />
+                <input type="submit" id="jtgh_wphts_reset_search_btn" name="jtgh_wphts_reset_search_btn" value="Reset" />
             </div>	
             <div style="clear: both;"></div>
         </div>
     </div>
-    <table class="widefat" style="width: 99%; margin: 0 auto;">
+    <table class="widefat" class="jtgh_wphts_main_form_layout">
         <thead>
             <tr>
-                <th scope="col" style="width: 1%;"><input type="checkbox" id="selectAllRows" /></th>
-                <th scope="col" style="width: 1%;">ID</th>
-                <th scope="col" style="width: 15%;">Block name</th>
-                <th scope="col" style="width: 40%;">Shortcode</th>
-                <th scope="col" style="width: 5%;">Status</th>
-                <th scope="col" style="width: 30%; text-align: center;" colspan="3">Action</th>
+                <th scope="col" width="1%"><input type="checkbox" id="selectAllRows" /></th>
+                <th scope="col" width="1%">ID</th>
+                <th scope="col" width="15%">Block name</th>
+                <th scope="col" width="40%">Shortcode</th>
+                <th scope="col" width="5%">Status</th>
+                <th scope="col" width="30%" class="jtgh_wphts_text_align_center" colspan="3">Action</th>
             </tr>
         </thead>
         <tbody>
             <?php 
                 if(!empty($entries)) {
+                    // Gestion lignes alternées, dans tableau
                     $count = 1;
-                    $class = '';
+                    $alternateClass = '';
                     foreach($entries as $entry) {
-                        $class = ( $count % 2 == 0 ) ? ' class="alternate"' : '';
-                        $entry_id=intval($entry->id);
+                        $alternateClass = ( $count % 2 == 0 ) ? 'class="alternate"' : '';
+                        $entry_id = intval($entry->id);
                 ?>
-                <tr <?php echo $class; ?>>
-                    <td style="vertical-align: middle!important; padding-left: 18px;">
-                        <input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="jtgh_wphts_block_ids[]" id="jtgh_wphts_block_ids" />
-                    </td>
-                    <td style="vertical-align: middle!important; text-align: right;"><?php echo intval($entry->id);?></td>
-                    <td style="vertical-align: middle!important;"><?php echo esc_html($entry->title);?></td>
-                    <td style="vertical-align: middle!important;"><?php 
+                <tr <?php echo $alternateClass; ?>>
+                    <td><input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="jtgh_wphts_block_ids[]" id="jtgh_wphts_block_ids" /></td>
+                    <td><?php echo intval($entry->id);?></td>
+                    <td><?php echo esc_html($entry->title); ?></td>
+                    <td><?php 
                         if($entry->bActif == 0) {
                             echo '-';
                         } else {
-                            echo '[wphts blockname="'.esc_html($entry->title).'"]';
-                        }?>
+                            $encoded_shortcode = str_replace("???", esc_html($entry->shortcode), JTGH_WPHTS_SHORTCODE_PROTOTYPE);
+                            echo $encoded_shortcode;
+                        } ?>
                     </td>
-                    <td style="vertical-align: middle!important;">
+                    <td>
                         <?php 
                             if($entry->bActif == 0) {
                                 echo "Inactive";
@@ -171,34 +167,34 @@
                         if($entry->bActif == 0) {
                             $activate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=1');
                         ?>
-                            <td style="vertical-align: middle!important; text-align: center;">
-                                <a href='<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                            <td>
+                                <a href="<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/toggle_off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
                                 </a>
                             </td>
                         <?php 
                         } elseif ($entry->bActif == 1){
                             $desactivate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=0');
                         ?>
-                            <td style="vertical-align: middle!important; text-align: center;">
-                                <a href='<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>'>
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                            <td>
+                                <a href="<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/toggle_on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
                                 </a>
                             </td>		
-                        <?php 	
+                        <?php
                         }
                     ?>
-                    <td style="vertical-align: middle!important; text-align: center;">
-                        <a href='<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>'>
-                            <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                    <td>
+                        <a href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>">
+                            <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
                         </a>
                     </td>
                     <?php
                         $delete_url = admin_url('admin.php?page=wphts-blocksHTML&action=delete-block&entry_id='.$entry_id);
                         ?>
-                        <td style="vertical-align: middle!important; text-align: center;" >
-                            <a href='<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>' onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
-                                <img class="jtgh_wphts_main_tbl_img1" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE)?>">
+                        <td>
+                            <a href="<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>" onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
+                                <img class="jtgh_wphts_main_tbl_img1" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
                             </a>
                         </td>
                 </tr>
@@ -214,18 +210,21 @@
     </table>
 </form>
 <?php
-    $total = $wpdb->get_var( "SELECT COUNT(`id`) FROM ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.);
-    $num_of_pages = ceil($total / $limit);
+    // Récupération du nombre d'enregistrement, pour calcul pagination
+    $total = $wpdb->get_var('SELECT COUNT(`id`) FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME);
+    $nbre_of_pages = ceil($total / $limit);
 
+    // Construction des liens de pagination
     $page_links = paginate_links(array(
-            'base' => add_query_arg('pagenum','%#%'),
-            'format' => '',
-            'prev_text' => '&laquo;',
-            'next_text' => '&raquo;',
-            'total' => $num_of_pages,
-            'current' => $pagenum
+        'base' => add_query_arg('pagenum','%#%'),
+        'format' => '',
+        'prev_text' => '&laquo;',
+        'next_text' => '&raquo;',
+        'total' => $nbre_of_pages,
+        'current' => $pagenum
     ) );
 
+    // Affichage des liens de pagination, si nécessaire
     if ($page_links) {
         echo '<div style="text-align: right; padding: 0.4rem; font-size: 1rem;">'.$page_links.'</div>';
     }
