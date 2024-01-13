@@ -19,7 +19,7 @@
         $capability = 'manage_options';
         $menu_slug = $main_slug;
         $callback = 'JTGH_WPHTS_page_list_and_manage';
-        $icon_url = JTGH_WPHTS_ROOT_DIRECTORY.'/images/logo_wp_purple_32x32.png';           // ou = plugins_url('images/logo.png', ...)); par exemple
+        $icon_url = plugins_url('images/logo_wp_purple_20x20.png', JTGH_WPHTS_ROOT_FILE);
         add_menu_page($page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url);
 
         // Sous-menu #1

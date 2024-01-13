@@ -169,7 +169,7 @@
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/toggle_off_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/toggle_off_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
                                 </a>
                             </td>
                         <?php 
@@ -178,7 +178,7 @@
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/toggle_on_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/toggle_on_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
                                 </a>
                             </td>		
                         <?php
@@ -186,7 +186,7 @@
                     ?>
                     <td>
                         <a href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>">
-                            <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
+                            <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
                         </a>
                     </td>
                     <?php
@@ -194,7 +194,7 @@
                         ?>
                         <td>
                             <a href="<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>" onclick="javascript: return confirm('Please click \'OK\' to confirm ');">
-                                <img class="jtgh_wphts_main_tbl_img1" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', WPHTS_ROOT_PLUGIN_FILE); ?>">
+                                <img class="jtgh_wphts_main_tbl_img1" title="Delete block" src="<?php echo plugins_url('images/delete_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
                             </a>
                         </td>
                 </tr>
