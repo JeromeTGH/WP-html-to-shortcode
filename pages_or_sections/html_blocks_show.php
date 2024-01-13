@@ -4,75 +4,90 @@
 	if (!defined('ABSPATH'))
 		exit;
 
+    // Récupération des canaux qui nous seront utiles ici
     global $wpdb;
-
     $_GET = stripslashes_deep($_GET);
     $_POST = stripslashes_deep($_POST);
 
+    // Récupération du "numéro" de message à afficher, si il y a
     $app_msg = '';
     if(isset($_GET['appmsg'])) {
         $app_msg = intval($_GET['appmsg']);
     }
 
+    // Affichage du message demandé, au besoin
     if($app_msg == 1) { ?>
-        <div class="jtgh_wphts_notice_alert">→ HTML block_id not found...</div><br><?php
+        <div class="jtgh_wphts_notice_alert">→ ID not found, sorry...</div><br><?php
     }
     if($app_msg == 2) { ?>
-        <div class="jtgh_wphts_notice_success">→ HTML block status successfully changed !</div><br><?php
+        <div class="jtgh_wphts_notice_success">→ Status successfully changed !</div><br><?php
     }
     if($app_msg == 3) { ?>
-        <div class="jtgh_wphts_notice_success">→ HTML block successfully deleted !</div><br><?php
+        <div class="jtgh_wphts_notice_success">→ Record successfully deleted !</div><br><?php
     }
 
 ?>
-<input id="wphts_add_new_block" style="cursor: pointer; margin-bottom:10px; margin-left:8px;" type="button" name="wphts_add_new_block" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block');?>"'>
+<input class="jtgh_wphts_btn_add_new_record" type="button" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block');?>"'>
 <br>
 <br>
 <?php
-    if (isset($_POST['wphts_apply_bulk_actions'])) {
-        if (isset($_POST['wphts_bulk_actions'])) {
-            $wphts_bulk_actions=$_POST['wphts_bulk_actions'];
+    // Gestion des actions de type "bulk" (actions groupées, donc)
+    if (isset($_POST['jtgh_wphts_apply_bulk_actions'])) {
+        if (isset($_POST['jtgh_wphts_bulk_actions'])) {
+            $jtgh_wphts_bulk_actions = $_POST['jtgh_wphts_bulk_actions'];
             // -1 = Nothing
             // 0 = Bulk Deactivate
             // 1 = Bulk Activate
             // 2 = Bulk Delete
-            if(isset($_POST['wphts_block_ids'])) {
-                $wphts_block_ids = $_POST['wphts_block_ids'];
-                if (!empty($wphts_block_ids)) {
-                    // Bulk "deactivate"
-                    if ($wphts_bulk_actions == 0) {
-                        foreach ($wphts_block_ids as $wphts_block_id)
-                            $wpdb->update($wpdb->prefix.'wphts', array('bActif' => 0), array('id' => $wphts_block_id));
-                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
-                        exit();
+            if(isset($_POST['jtgh_wphts_block_ids'])) {
+                $jtgh_wphts_block_ids = $_POST['jtgh_wphts_block_ids'];
+                if (!empty($jtgh_wphts_block_ids)) {
+
+                    // Passage en revue de toutes les ID sélectionnées, une par une
+                    foreach ($jtgh_wphts_block_ids as $jtgh_wphts_block_id) {
+
+                        // Vérification si numérique (si pb, on saute à l'ID suivant)
+                        if($jtgh_wphts_block_id == "" || !is_numeric($jtgh_wphts_block_id))
+                            continue;
+
+                        // Si option "Bulk deactivate" choisie : mise à jour du status (passage à 0 "forcé")
+                        if ($jtgh_wphts_bulk_actions == 0)
+                            $wpdb->update($wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME, array('bActif' => 0), array('id' => $jtgh_wphts_block_id));
+
+                        // Si option "Bulk activate" choisie : mise à jour du status (passage à 1 "forcé")
+                        if ($jtgh_wphts_bulk_actions == 1)
+                            $wpdb->update($wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME, array('bActif' => 1), array('id' => $jtgh_wphts_block_id));
+
+                        // Si option "Bulk delete" choisie : effacement de l'enregistrement
+                        if ($jtgh_wphts_bulk_actions == 2) {
+                            $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $jtgh_wphts_block_id));
+                            // À désactiver par sécurité, si souhaité
+                        }
+
                     }
-                    // Bulk "activate"
-                    if ($wphts_bulk_actions == 1) {
-                        foreach ($wphts_block_ids as $wphts_block_id)
-                            $wpdb->update($wpdb->prefix.'wphts', array('bActif' => 1), array('id' => $wphts_block_id));
-                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
-                        exit();
-                    }
-                    // Bulk "delete"
-                    if ($wphts_bulk_actions == 2) {
-                        // foreach ($wphts_block_ids as $wphts_block_id)
-                        //     $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $wphts_block_id));
-                                    // Désactivé par sécurité, pour l'instant
-                        header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
-                        exit();
-                    }
+
+                    // Et retour à la "page d'accueil admin", une fois toutes les ID parcourues
+                    header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                    exit();
                 }
             }
         }
     }
 
-    $pagenum = isset($_GET['pagenum']) ? absint($_GET['pagenum']) : 1;
+    // Récupération des options
     $limit = get_option('wphts_show_limit');
-    $offset = ($pagenum - 1) * $limit;
-
     $sort_by = get_option('wphts_sort_by');
     $sort_direction = get_option('wphts_sort_direction');
 
+    // Récupération/calcul pagination
+    $pagenum = isset($_GET['pagenum']) ? absint($_GET['pagenum']) : 1;
+    $offset = ($pagenum - 1) * $limit;
+
+
+
+
+
+    
     $search_txt = '';
     $search_txt_for_sql = '';
     if(isset($_POST['wphts_search_txt'])) {
@@ -93,13 +108,13 @@
     <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
         <div>
             <span>With Selected : </span>
-            <select name="wphts_bulk_actions" id="wphts_bulk_actions">
+            <select name="jtgh_wphts_bulk_actions" id="jtgh_wphts_bulk_actions">
                 <option value="-1">Bulk Actions</option>
                 <option value="0">Deactivate</option>
                 <option value="1">Activate</option>
                 <option value="2">Delete</option>
             </select>
-            <input type="submit" name="wphts_apply_bulk_actions" value="Apply">		
+            <input type="submit" name="jtgh_wphts_apply_bulk_actions" value="Apply">		
         </div>
         <div>
             <div style="float: right; padding: 0.4rem;">
@@ -132,7 +147,7 @@
                 ?>
                 <tr <?php echo $class; ?>>
                     <td style="vertical-align: middle!important; padding-left: 18px;">
-                        <input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="wphts_block_ids[]" id="wphts_block_ids" />
+                        <input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="jtgh_wphts_block_ids[]" id="jtgh_wphts_block_ids" />
                     </td>
                     <td style="vertical-align: middle!important; text-align: right;"><?php echo intval($entry->id);?></td>
                     <td style="vertical-align: middle!important;"><?php echo esc_html($entry->title);?></td>
