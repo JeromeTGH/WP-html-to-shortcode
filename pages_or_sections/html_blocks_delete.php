@@ -8,7 +8,15 @@
     global $wpdb;
     $_GET = stripslashes_deep($_GET);
 
-    // Récupération des données transmises dans l'URL
+    // On sort si jamais l'ID est manquant dans l'URL
+    if(!isset($_GET['entry_id'])) {
+        ?>
+            <div class="jtgh_wphts_notice_alert">Data missing, sorry...</div>
+        <?php	
+        exit;
+    }
+
+    // Récupération de l'ID dans l'URL
     $bloc_id = intval($_GET['entry_id']);
 
     // Vérification du NONCE

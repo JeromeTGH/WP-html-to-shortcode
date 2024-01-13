@@ -6,8 +6,15 @@
 
     // Récupération des canaux qui nous seront utiles ici
     global $wpdb;
-    $_POST = stripslashes_deep($_POST);
     $_GET = stripslashes_deep($_GET);
+
+    // On sort si jamais certaines données sont manquantes
+    if(!isset($_GET['entry_id']) || !isset($_GET['new_status'])) {
+        ?>
+            <div class="jtgh_wphts_notice_alert">Data missing, sorry...</div>
+        <?php	
+        exit;
+    }
 
     // Récupération des données transmises dans l'URL
     $bloc_id = intval($_GET['entry_id']);

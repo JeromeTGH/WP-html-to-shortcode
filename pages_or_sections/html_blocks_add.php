@@ -17,6 +17,14 @@
             exit;
         }
 
+        // On sort si jamais certains champs sont manquants
+        if(!isset($_POST['shortcode']) || !isset($_POST['codeHtml'])) {
+            ?>
+                <div class="jtgh_wphts_notice_alert">Form data missing, sorry...</div>
+            <?php	
+            exit;
+        }
+
         // Récupération des contenus mis à jour (nouveaux champs)
         $new_shortcode = str_replace(' ', '-', $_POST['shortcode']);
         $new_htmlcode = $_POST['codeHtml'];
@@ -24,7 +32,7 @@
         // Vérification du bon remplissage des champs
         if($new_shortcode != "" && $new_htmlcode != "") {
 
-            // Vérification de format ultérieur
+            // Vérification de format de shortcode
             $check_if_alphanumeric_characters = str_replace(' ', '', $_POST['shortcode']);
             $check_if_alphanumeric_characters = str_replace('-', '', $check_if_alphanumeric_characters);
             if(ctype_alnum($check_if_alphanumeric_characters)) {

@@ -4,53 +4,84 @@
 	if (!defined('ABSPATH'))
 		exit;
 
+    // Récupération des canaux qui nous seront utiles ici
     global $wpdb;
     $_GET = stripslashes_deep($_GET);
     $_POST = stripslashes_deep($_POST);
 
+    // On sort si jamais l'ID est manquant dans l'URL
+    if(!isset($_GET['entry_id'])) {
+        ?>
+            <div class="jtgh_wphts_notice_alert">Data missing, sorry...</div>
+        <?php	
+        exit;
+    }
+
+    // Récupération de l'ID dans l'URL
     $blockID = intval($_GET['entry_id']);
+
+    // Récupération du "numéro" de message à afficher, si il y a
     $app_msg = '';
     if(isset($_GET['appmsg'])){
         $app_msg = intval($_GET['appmsg']);
     }
     if($app_msg == 1) { ?>
-        <div style="color: green; font-weight: bold;">HTML block successfully updated !</div> <?php
+        <div class="jtgh_wphts_notice_success">HTML block successfully updated !</div> <?php
     }
 
+    // Récupération des valeurs AVANT modification, si formulaire de modif non encore transmis    
     $champs_de_ce_block = [];
-    if(isset($_POST) && !isset($_POST['updateBlock']) && isset($_GET['entry_id'])) {
+    if(isset($_POST) && !isset($_POST['btnValidationFormulaire']) && isset($_GET['entry_id'])) {
         $resultat_lecture = $wpdb->get_results($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d LIMIT 0,1', $blockID));
         $champs_de_ce_block = $resultat_lecture[0];
     }
 
+    // Traitement des données postées, le cas échéant
+    if(isset($_POST) && isset($_POST['btnValidationFormulaire'])) {
 
-    if(isset($_POST) && isset($_POST['updateBlock'])) {
+        // Vérification NONCE
         if(!isset($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], JTGH_WPHTS_NONCE_BASE.'update'.$blockID)) {
             wp_nonce_ays(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
             exit;
         }
 
-        $check_title = str_replace(' ', '', $_POST['blockTitle']);
-        $check_title = str_replace('-', '', $check_title);
-        $new_title = str_replace(' ', '-', $_POST['blockTitle']);
-        $new_content = $_POST['blockContent'];
+        // On sort si jamais certains champs sont manquants
+        if(!isset($_POST['shortcode']) || !isset($_POST['codeHtml'])) {
+            ?>
+                <div class="jtgh_wphts_notice_alert">Form data missing, sorry...</div>
+            <?php	
+            exit;
+        }
+
+        // Récupération des données postées
+        $new_shortcode = str_replace(' ', '-', $_POST['shortcode']);
+        $new_htmlcode = $_POST['codeHtml'];
         
-        if($new_title != "" && $new_content != "") {
+        // Vérification qu'aucune donnée ne soit vide
+        if($new_shortcode != "" && $new_htmlcode != "") {
+
+            // Vérification de format de shortcode
+            $check_title = str_replace(' ', '', $_POST['shortcode']);
+            $check_title = str_replace('-', '', $check_title);
             if(ctype_alnum($check_title)) {
-                $doublon = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id!=%d AND title=%s', $blockID, $new_title));
+
+                // On regarde si ce shortcode n'est pas déjà enregistré en BDD
+                $doublon = $wpdb->query($wpdb->prepare('SELECT * FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id!=%d AND shortcode=%s', $blockID, $new_shortcode));
                 
                 if($doublon == 0) {
-                    $new_shortcode = '[wphts blockname="'.$new_title.'"]';
-                    $wpdb->update($wpdb->prefix.'wphts', array('title' => $new_title,'content' => $new_content,'short_code' => $new_shortcode), array('id' => $blockID));
+                    // On met à jour notre enregistrement en BDD, avec les nouveaux shortcode/codeHtml
+                    $wpdb->update($wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME, array('shortcode' => $new_shortcode,'htmlCode' => $new_htmlcode, array('id' => $blockID)));
+
+                    // Et on revient à la page "principale", avec le code message '1' à faire afficher
                     header("Location:".admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$blockID.'&appmsg=1'));
                 } else {
                     ?>
-                    <div class="jtgh_wphts_notice_alert">This HTML title already exists, sorry...</div>
+                    <div class="jtgh_wphts_notice_alert">This shortcode already exists, sorry...</div>
                     <?php	
                 }
             } else {
                 ?>
-                <div class="jtgh_wphts_notice_alert">HTML title should have only alphanumerics characters, sorry...</div>
+                <div class="jtgh_wphts_notice_alert">The shortcode should have only alphanumerics characters, sorry...</div>
                 <?php
             }
         } else {
@@ -62,35 +93,31 @@
 ?>
 
 <h2>Update an HTML Block</h2>
-<div>
-	<fieldset style="width: 99%; border: 1px solid #F7F7F7; padding: 10px 0px;">
-		<form method="post" action="admin.php?page=wphts-blocksHTML&action=edit-block&entry_id=<?php echo $blockID; ?>">
-			<?php
-                wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
-			?>
-			<div>
-                <table style="width: 99%; background-color: #F9F9F9; border: 1px solid #E4E4E4; border-width: 1px;margin: 0 auto; border-spacing: 1rem;">
-                    <tr>
-                        <td style="border-bottom: none; width:10%;">&nbsp;&nbsp;&nbsp;Block&nbsp;name&nbsp;:&nbsp;<span style="color: red">*</span></td>
-                        <td>
-                            <input style="width:30%;" type="text" name="blockTitle" id="blockTitle"
-                            value="<?php if(isset($_POST['blockTitle'])) {echo esc_attr($_POST['blockTitle']);} else {echo esc_attr($champs_de_ce_block->title);}?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="border-bottom: none; width:10%;">&nbsp;&nbsp;&nbsp;HTML&nbsp;code&nbsp;:&nbsp;<span style="color: red">*</span></td>
-                        <td>
-                            <textarea name="blockContent" style="width:90%; height:300px;"><?php if(isset($_POST['blockContent'])) {echo esc_textarea($_POST['blockContent']);} else {echo esc_attr($champs_de_ce_block->content);}?></textarea>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>
-                            <input class="button-primary" style="cursor: pointer;" type="submit" name="updateBlock" value="Update">   
-                        </td> 
-                    </tr>
-                </table>
-			</div>
-		</form>
-	</fieldset>
-</div>
+<form method="post" action="admin.php?page=wphts-blocksHTML&action=edit-block&entry_id=<?php echo $blockID; ?>">
+    <?php
+        wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
+    ?>
+    <div class="jtgh_wphts_form_layout">
+        <table class="jtgh_wphts_edit_table_layout">
+            <tr>
+                <td class="jtgh_wphts_edit_table_1stcolumn_layout">&nbsp;&nbsp;&nbsp;Shortcode&nbsp;:&nbsp;<span class="jtgh_wphts_red_color">*</span></td>
+                <td>
+                    <input class="jtgh_wphts_edit_table_input_layout" type="text" name="shortcode" id="shortcode"
+                    value="<?php if(isset($_POST['shortcode'])) { echo esc_attr($_POST['shortcode']); } else { echo esc_attr($champs_de_ce_block->shortcode); }?>">
+                </td>
+            </tr>
+            <tr>
+                <td class="jtgh_wphts_edit_table_1stcolumn_layout">&nbsp;&nbsp;&nbsp;HTML&nbsp;code&nbsp;:&nbsp;<span class="jtgh_wphts_red_color">*</span></td>
+                <td>
+                    <textarea name="codeHtml" class="jtgh_wphts_add_table_textarea_layout"><?php if(isset($_POST['codeHtml'])) { echo esc_textarea($_POST['codeHtml']); } else { echo esc_attr($champs_de_ce_block->htmlCode); }?></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>
+                    <input class="button-primary" type="submit" name="btnValidationFormulaire" value="Update">   
+                </td> 
+            </tr>
+        </table>
+    </div>
+</form>
