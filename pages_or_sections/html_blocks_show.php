@@ -203,7 +203,7 @@
                 }
             } else { ?>
             <tr>
-                <td colspan="6" >No HTML block found</td>
+                <td colspan="6" class="jtgh_wphts_text_align_center">No HTML block found</td>
             </tr>
             <?php } ?>
         </tbody>
