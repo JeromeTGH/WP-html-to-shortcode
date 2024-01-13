@@ -4,7 +4,7 @@
 	if (!defined('ABSPATH'))
 		exit;
 
-    // Récupération des données qui nous seront utiles ici
+    // Récupération des canaux qui nous seront utiles ici
     global $wpdb;
     $_POST = stripslashes_deep($_POST);
 
