@@ -27,7 +27,7 @@
     }
 
 ?>
-<input class="jtgh_wphts_btn_add_new_record" type="button" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=add-block'); ?>"'>
+<input class="jtgh_wphts_btn_add_new_record" type="button" value="Add New HTML Block" onClick='document.location.href="<?php echo admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=add-block'); ?>"'>
 <br>
 <br>
 <?php
@@ -67,7 +67,7 @@
                     }
 
                     // Et retour à la "page d'accueil admin", une fois toutes les ID parcourues
-                    header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                    header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.''));
                     exit();
                 }
             }
@@ -145,7 +145,7 @@
                 <tr <?php echo $alternateClass; ?>>
                     <td><input type="checkbox" class="chk" value="<?php echo intval($entry->id); ?>" name="jtgh_wphts_block_ids[]" id="jtgh_wphts_block_ids" /></td>
                     <td><?php echo intval($entry->id);?></td>
-                    <td><?php echo esc_html($entry->title); ?></td>
+                    <td><?php echo esc_html($entry->shortcode); ?></td>
                     <td><?php 
                         if($entry->bActif == 0) {
                             echo '-';
@@ -165,7 +165,7 @@
                     </td>
                     <?php 
                         if($entry->bActif == 0) {
-                            $activate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=1');
+                            $activate_url = admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=change-status&entry_id='.$entry_id.'&new_status=1');
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
@@ -174,7 +174,7 @@
                             </td>
                         <?php 
                         } elseif ($entry->bActif == 1){
-                            $desactivate_url = admin_url('admin.php?page=wphts-blocksHTML&action=change-status&entry_id='.$entry_id.'&new_status=0');
+                            $desactivate_url = admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=change-status&entry_id='.$entry_id.'&new_status=0');
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
@@ -185,12 +185,12 @@
                         }
                     ?>
                     <td>
-                        <a href="<?php echo admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$entry_id); ?>">
+                        <a href="<?php echo admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=edit-block&entry_id='.$entry_id); ?>">
                             <img class="jtgh_wphts_main_tbl_img1" title="Edit block" src="<?php echo plugins_url('images/edit_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
                         </a>
                     </td>
                     <?php
-                        $delete_url = admin_url('admin.php?page=wphts-blocksHTML&action=delete-block&entry_id='.$entry_id);
+                        $delete_url = admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=delete-block&entry_id='.$entry_id);
                         ?>
                         <td>
                             <a href="<?php echo wp_nonce_url($delete_url, JTGH_WPHTS_NONCE_BASE.'delete'.$entry_id); ?>" onclick="javascript: return confirm('Please click \'OK\' to confirm ');">

@@ -26,7 +26,7 @@
     } else {
         // Vérifie que l'ID est bien numérique (sinon, retour à la page "principale")
         if($bloc_id == "" || !is_numeric($bloc_id)) {
-            header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+            header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.''));
             exit();
         }
 
@@ -35,13 +35,13 @@
 
         if($resultat == 0) {
             // Si aucun résultat trouvé avec cet ID, alors on retourne à la page principale (avec "message 1" en retour demandé)
-            header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=1'));
+            header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&appmsg=1'));
             exit();
         } else {
             // Si ID bien trouvé en BDD, alors on procède à son effacement (puisque c'est la requête souhaitée)
             $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $bloc_id));
             // Et retour à la page principale (avec "message 3" en retour demandé)
-            header("Location:".admin_url('admin.php?page=wphts-blocksHTML&appmsg=3'));
+            header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&appmsg=3'));
             exit();
         }
     }

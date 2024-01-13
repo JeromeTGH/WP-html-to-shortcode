@@ -45,7 +45,7 @@
                     $wpdb->insert($wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME, array('shortcode' => $new_shortcode, 'htmlCode' => $new_htmlcode, 'bActif' => '1'), array('%s', '%s', '%s'));
 
                     // Et on revient à la page "principale"
-                    header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
+                    header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.''));
                 } else {
                     ?>
                     <div class="jtgh_wphts_notice_alert">This shortcode already exists, sorry...</div>

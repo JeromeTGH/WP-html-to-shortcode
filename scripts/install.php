@@ -47,24 +47,15 @@
 
         // Création de la table, si inexsitante
         global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
         $create_table_rqt = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
             `id` INT NOT NULL AUTO_INCREMENT,
             `shortcode` VARCHAR(256) NOT NULL,
             `htmlCode` LONGTEXT NOT NULL,
-            `bActif` BIT(1) NOT NULL,
+            `bActif` TINYINT NOT NULL,
             PRIMARY KEY (`id`)
-        )";
+        ) ".$charset_collate;
         $wpdb->query($create_table_rqt);
-
-        // $charset_collate = $wpdb->get_charset_collate();
-        // $queryInsertHtml = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
-        //         `id` INT NOT NULL AUTO_INCREMENT,
-        //         `shortcode` VARCHAR(256) NOT NULL,
-        //         `htmlContent` LONGTEXT NOT NULL,
-        //         `bActif` BIT(1) NOT NULL,
-        //         PRIMARY KEY (`id`)
-        //     ) ENGINE=InnoDB ".$charset_collate;
-        // $wpdb->query($queryInsertHtml);
 
     }
 

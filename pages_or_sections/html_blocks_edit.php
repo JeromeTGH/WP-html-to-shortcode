@@ -73,7 +73,7 @@
                     $wpdb->update($wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME, array('shortcode' => $new_shortcode,'htmlCode' => $new_htmlcode, array('id' => $blockID)));
 
                     // Et on revient à la page "principale", avec le code message '1' à faire afficher
-                    header("Location:".admin_url('admin.php?page=wphts-blocksHTML&action=edit-block&entry_id='.$blockID.'&appmsg=1'));
+                    header("Location:".admin_url('admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=edit-block&entry_id='.$blockID.'&appmsg=1'));
                 } else {
                     ?>
                     <div class="jtgh_wphts_notice_alert">This shortcode already exists, sorry...</div>
@@ -93,7 +93,7 @@
 ?>
 
 <h2>Update an HTML Block</h2>
-<form method="post" action="admin.php?page=wphts-blocksHTML&action=edit-block&entry_id=<?php echo $blockID; ?>">
+<form method="post" action="admin.php?page='.JTGH_WPHTS_MAIN_SLUG.'&action=edit-block&entry_id=<?php echo $blockID; ?>">
     <?php
         wp_nonce_field(JTGH_WPHTS_NONCE_BASE.'update'.$blockID);
     ?>
