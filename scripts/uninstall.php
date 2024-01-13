@@ -18,8 +18,8 @@
 
         // Suppression de la table en BDD
         global $wpdb;
-        $wpdb->query("DROP TABLE ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME);            // Efface la table en désinstallant le plugin, si souhaité
-
+        //$wpdb->query("DROP TABLE ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME);            // Efface la table en désinstallant le plugin, si souhaité
+                // Protection anti-effacement BDD (à retirer, au besoin)
     }
 
 ?>

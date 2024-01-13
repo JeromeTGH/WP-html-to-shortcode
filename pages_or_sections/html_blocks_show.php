@@ -60,8 +60,8 @@
 
                         // Si option "Bulk delete" choisie : effacement de l'enregistrement
                         if ($jtgh_wphts_bulk_actions == 2) {
-                            $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $jtgh_wphts_block_id));
-                            // À désactiver par sécurité, si souhaité
+                            // $wpdb->query($wpdb->prepare('DELETE FROM '.$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME.' WHERE id=%d', $jtgh_wphts_block_id));
+                                    // À activer/désactiver selon souhaits, au niveau sécurité
                         }
 
                     }
@@ -148,7 +148,7 @@
                     <td><?php echo esc_html($entry->shortcode); ?></td>
                     <td><?php 
                         if($entry->bActif == 0) {
-                            echo '-';
+                            echo '(inactive)';
                         } else {
                             $encoded_shortcode = str_replace("???", esc_html($entry->shortcode), JTGH_WPHTS_SHORTCODE_PROTOTYPE);
                             echo $encoded_shortcode;
@@ -169,7 +169,7 @@
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($activate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/toggle_off_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Activate block" src="<?php echo plugins_url('images/toggle_off_icon_32x16.png', JTGH_WPHTS_ROOT_FILE); ?>">
                                 </a>
                             </td>
                         <?php 
@@ -178,7 +178,7 @@
                         ?>
                             <td>
                                 <a href="<?php echo wp_nonce_url($desactivate_url, JTGH_WPHTS_NONCE_BASE.'change_status'.$entry_id); ?>">
-                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/toggle_on_icon_32x32.png', JTGH_WPHTS_ROOT_FILE); ?>">
+                                    <img class="jtgh_wphts_main_tbl_img2" title="Desactivate block" src="<?php echo plugins_url('images/toggle_on_icon_32x16.png', JTGH_WPHTS_ROOT_FILE); ?>">
                                 </a>
                             </td>		
                         <?php

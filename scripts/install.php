@@ -50,7 +50,7 @@
         $charset_collate = $wpdb->get_charset_collate();
         $create_table_rqt = "CREATE TABLE IF NOT EXISTS ".$wpdb->prefix.JTGH_WPHTS_BDD_TBL_NAME." (
             `id` INT NOT NULL AUTO_INCREMENT,
-            `shortcode` VARCHAR(256) NOT NULL,
+            `shortcode` VARCHAR(128) NOT NULL,
             `htmlCode` LONGTEXT NOT NULL,
             `bActif` TINYINT NOT NULL,
             PRIMARY KEY (`id`)
