@@ -19,7 +19,7 @@
         exit;
     } else {
         // Vérifie que l'ID est bien numérique (sinon, retour à la page "principale")
-        if($bloc_id == "" || !is_numeric($bloc_id)){
+        if($bloc_id == "" || !is_numeric($bloc_id)) {
             header("Location:".admin_url('admin.php?page=wphts-blocksHTML'));
             exit();
         }
